@@ -128,8 +128,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cluster.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="stack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cluster.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

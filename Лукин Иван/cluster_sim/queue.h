@@ -3,6 +3,8 @@
 
 #include "stack.h"
 
+const int MaxQueuesize = MaxStackSize;
+
 template <class T>
 class Queue
 {
@@ -10,14 +12,17 @@ class Queue
 	int tail;
 public:
 	Queue() :LeftStack{}, RightStack{}, tail(-1) {}
+
 	Queue(size_t size) :RightStack(size), LeftStack(size), tail(-1) {}
+
 	void push(const T& elem)
 	{
-		if (LeftStack.stack_size() + RightStack.stack_size() >= MaxStackSize)
+		if (LeftStack.get_top_pos() + RightStack.get_top_pos() >= MaxStackSize)
 			throw "is Full";
 		LeftStack.push(elem);
 		tail++;
 	}
+
 	T pop()
 	{
 		if (RightStack.isEmpty())
@@ -30,14 +35,34 @@ public:
 		tail--;
 		return RightStack.pop();
 	}
+
+	T get_head()
+	{
+		if (RightStack.isEmpty())
+		{
+			if (isEmpty())
+				throw "queue is empty!";
+			while (!LeftStack.isEmpty())
+				RightStack.push(LeftStack.pop());
+		}
+		return RightStack.get_top();
+	}
+
 	bool isEmpty() noexcept
 	{
 		return (LeftStack.isEmpty() && RightStack.isEmpty());
 	}
-	size_t size() noexcept
+
+	size_t get_size() noexcept
 	{
 		return LeftStack.stack_size();
 	}
+
+	int get_tail_pos() noexcept
+	{
+		return tail;
+	}
+
 	~Queue() = default;
 };
 

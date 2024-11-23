@@ -1,7 +1,11 @@
 ﻿#ifndef __STACK_H__
 #define __STACK_H__
 
-const int MaxStackSize = 100;
+#include <algorithm>
+
+using namespace std;
+
+const int MaxStackSize = 10000;
 
 template <class T>
 class TStack
@@ -43,9 +47,19 @@ public:
             throw "Stack is Empty!";
         return pMem[top--];
     }
+    T get_top()
+    {
+        if (isEmpty())
+            throw "Stack is Empty!";
+        return pMem[top];
+    }
     size_t stack_size()
     {
         return size;
+    }
+    int get_top_pos()
+    {
+        return top;
     }
     ~TStack()
     {
