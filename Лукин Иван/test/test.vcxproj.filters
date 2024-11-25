@@ -24,6 +24,15 @@
     <ClCompile Include="gtest-all.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="cluster_test.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cluster_sim\cluster.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="stack_test.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gtest.h">

@@ -132,8 +132,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cluster_sim\cluster.cpp" />
+    <ClCompile Include="cluster_test.cpp" />
     <ClCompile Include="gtest-all.cc" />
     <ClCompile Include="queue_test.cpp" />
+    <ClCompile Include="stack_test.cpp" />
     <ClCompile Include="test_main.cpp" />
   </ItemGroup>
   <ItemGroup>

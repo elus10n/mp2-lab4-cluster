@@ -1,55 +1,34 @@
 #include "cluster.h"
-#include <iostream>
 
 int randomize(int left, int right)
 {
 	return left + rand() % (right - left + 1);
 }
 
-Cluster::Cluster(int comp, int tacts, double chanc, int ppt)
+Cluster::Cluster(int comp, double chanc, int ppt)
 {
-	if ((comp < MinComponents || comp > MaxComponents) || (tacts < MinTime || tacts > MaxTime) || (chanc <= 0 || chanc > 1.0) || (ppt < MinPPT || ppt > MaxPPT))
+	if ((comp < MinComponents || comp > MaxComponents) || (chanc <= 0 || chanc > 1.0) || (ppt < MinPPT || ppt > MaxPPT))
 		throw "invalid cluster arguments!";
 	components = comp;
-	tacts_to_sim = tacts;
 	chance = chanc;
 	PPT = ppt;
 }
 
-void Cluster::set_components(int comp)
+Statistic Cluster::simulation(int tacts,int t_lim,int c_lim)
 {
-	if (comp <= 0 || comp > MaxComponents)
+	if (tacts < MinTime || tacts > MaxTime || t_lim < 1 || t_lim > MaxTime || c_lim < 1 || c_lim > components)
 		throw "invalid cluster arguments!";
-	components = comp;
-}
-
-void Cluster::set_tacts(int tacts)
-{
-	if (tacts <= 0 || tacts > MaxTime)
-		throw "invalid cluster arguments!";
-	tacts_to_sim = tacts;
-}
-
-void Cluster::set_chance(double chanc)
-{
-	if(chance <= 0.0 || chance > 1.0)
-		throw "invalid cluster arguments!";
-	chance = chanc;
-}
-
-Statistic Cluster::simulation()
-{
 	Queue<Programm> main_q{};
 	vector<Programm> active;
 	int free_components = components;
-	int tact_limit = 50;
-	int comp_limit = 10;
+	int tact_limit = t_lim;
+	int comp_limit = c_lim;
 	Statistic stat;
 	double avg = 0;
 	int j;
 	int k;
 	int ind = 0;
-	for (int i = 1; i <= tacts_to_sim; i++)//симул€ци€ тактов
+	for (int i = 1; i <= tacts; i++)//симул€ци€ тактов
 	{
 		for (j = 0; j < active.size();)//отслеживание выполнени€ и обновление статуса всех активных программ
 		{
@@ -73,7 +52,7 @@ Statistic Cluster::simulation()
 				stat.count_of_programms++;
 			}
 		}
-		if (!main_q.isEmpty() && (main_q.get_head().necessary_components<=free_components))//возможный старт новой программы
+		while (!main_q.isEmpty() && (main_q.get_head().necessary_components<=free_components))//возможный старт новой программы или программ
 		{
 			free_components -= main_q.get_head().necessary_components;
 			active.push_back(main_q.pop());
@@ -81,7 +60,7 @@ Statistic Cluster::simulation()
 		}
 		avg += (double)(components - free_components) / components;
 	}
-	avg = avg / tacts_to_sim;
+	avg = avg / tacts;
 	stat.avg_cluster_load = avg;
 	return stat;
 }

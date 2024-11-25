@@ -2,8 +2,6 @@
 #define __CLUSTER_H__
 
 #include "queue.h"
-#include <map>
-#include <string>
 #include <vector>
 
 using namespace std;
@@ -12,7 +10,7 @@ const int MaxComponents = 64;
 const int MinComponents = 16;
 
 const int MaxTime = 500;
-const int MinTime = 50;
+const int MinTime = 25;
 
 const int MaxPPT = 10;//PPT - Programms Per Tact
 const int MinPPT = 1;
@@ -37,15 +35,11 @@ struct Statistic
 class Cluster
 {
 	int components;
-	int tacts_to_sim;
 	double chance;
 	int PPT;//programms per tact
 public:
-	Cluster(int comp, int tacts, double chanc, int ppt);
-	void set_components(int comp);
-	void set_tacts(int tacts);
-	void set_chance(double chanc);
-	Statistic simulation();
+	Cluster(int comp, double chanc, int ppt);
+	Statistic simulation(int tacts, int t_lim = 25, int c_lim = 5);
 };
 
 #endif
